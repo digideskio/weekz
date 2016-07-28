@@ -1,0 +1,40 @@
+{
+  "name": "weekz",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/martinheidegger/weekz.svg?branch=master)](https://travis-ci.org/martinheidegger/weekz) [![Coverage Status](https://coveralls.io/repos/github/martinheidegger/weekz/badge.svg?branch=master)](https://coveralls.io/github/martinheidegger/weekz?branch=master) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && tap --coverage test/**",
+    "quick": "tap test/**",
+    "lint": "standard"
+  },
+  "keywords": [
+    "week",
+    "calendar",
+    "calculation",
+    "time",
+    "parsing"
+  ],
+  "author": "Martin Heidegger <martin.heidegger@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "run-markdown": "0.0.5",
+    "standard": "^7.1.2",
+    "tap": "^6.2.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "run-markdown": "^0.0.5",
+    "standard": "^7.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinheidegger/weekz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martinheidegger/weekz/issues"
+  },
+  "homepage": "https://github.com/martinheidegger/weekz#readme"
+}
