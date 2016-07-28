@@ -2,5 +2,5 @@
 module.exports = {
   parseWeek: require('./parseWeek.js'),
   getWeek: require('./getWeek.js'),
-  inYear: require('./weeksInYear.js')
+  inYear: require('./inYear.js')
 }

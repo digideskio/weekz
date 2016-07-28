@@ -1,6 +1,6 @@
 'use strict'
 var test = require('tap').test
-var weeksInYear = require('../weeksInYear')
+var weeksInYear = require('../inYear.js')
 
 // From Wikipedia: https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
 var exceptions = [
