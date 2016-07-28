@@ -1,7 +1,7 @@
 'use strict'
-const test = require('tap').test
-const parseWeek = require('../parseWeek')
-const weeksInYear = require('../weeksInYear')
+var test = require('tap').test
+var parseWeek = require('../parseWeek')
+var weeksInYear = require('../weeksInYear')
 
 test('starting of first week is always the 1. of january', function (t) {
   for (var year = 2000; year < 2025; ++year) {

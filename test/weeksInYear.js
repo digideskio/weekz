@@ -1,9 +1,9 @@
 'use strict'
-const test = require('tap').test
-const weeksInYear = require('../weeksInYear')
+var test = require('tap').test
+var weeksInYear = require('../weeksInYear')
 
 // From Wikipedia: https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
-const exceptions = [
+var exceptions = [
   4, 9, 15, 20, 26, 32, 37, 43, 48, 54, 60,
   65, 71, 76, 82, 88, 93, 99, 105, 111, 116, 122,
   128, 133, 139, 144, 150, 156, 161, 167, 172, 178, 184,
@@ -20,6 +20,6 @@ function weekTest (year) {
   })
 }
 
-for (var i = 1598; i < 2402; ++i) {
-  weekTest(i)
+for (var year = 1598; year < 2402; ++year) {
+  weekTest(year)
 }

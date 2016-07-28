@@ -1,11 +1,11 @@
 'use strict'
-const MS_PER_DAY = 1000 * 60 * 60 * 24
-const MS_PER_WEEK = MS_PER_DAY * 7
-const weeksInYear = require('./weeksInYear.js')
-const dateInTZ = require('./dateInTZ.js')
-const fill = require('./fill.js')
+var MS_PER_DAY = 1000 * 60 * 60 * 24
+var MS_PER_WEEK = MS_PER_DAY * 7
+var weeksInYear = require('./weeksInYear.js')
+var dateInTZ = require('./dateInTZ.js')
+var fill = require('./fill.js')
 
-const weekProto = {
+var weekProto = {
   getNext: function () {
     return parseWeek(this.next)
   },
@@ -26,15 +26,15 @@ function parseWeek (weekInYear, tz) {
     weeks = weeksInYear(year)
   }
 
-  const result = Object.create(weekProto)
+  var result = Object.create(weekProto)
   result.name = fill(4, year) + fill(2, week)
 
-  const firstDate = dateInTZ(year, 0, 1, tz)
+  var firstDate = dateInTZ(year, 0, 1, tz)
 
   // On Sunday (firstDay == 0) the follow-up operation wouldn't be doing
   // anything. As optimization step we look for it.
-  const firstDay = firstDate.getDay()
-  const firstWeekStart = (firstDay === 0)
+  var firstDay = firstDate.getDay()
+  var firstWeekStart = (firstDay === 0)
     ? firstDate
     : new Date(firstDate.getTime() - firstDay * MS_PER_DAY)
 
@@ -47,7 +47,7 @@ function parseWeek (weekInYear, tz) {
     result.start = firstDate
   }
 
-  const lastDate = new Date(dateInTZ(year + 1, 0, 1, tz).getTime() - MS_PER_DAY)
+  var lastDate = new Date(dateInTZ(year + 1, 0, 1, tz).getTime() - MS_PER_DAY)
 
   // Make sure that the end of the last week is the last day of the year
   // (week 52/53 ends at 31.12.)

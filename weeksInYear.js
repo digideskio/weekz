@@ -1,7 +1,7 @@
 'use strict'
 
 // From Wikipedia: https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
-const exceptions = {
+var exceptions = {
   '4': 1,
   '9': 1,
   '15': 1,

@@ -1,5 +1,5 @@
 'use strict'
-const fill = require('./fill.js')
+var fill = require('./fill.js')
 module.exports = function dateInTZ (year, month, day, tz) {
   return new Date(
     fill(4, year) +
