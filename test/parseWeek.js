@@ -40,6 +40,14 @@ test('incrementing over year limits', function (t) {
   t.end()
 })
 
+test('incrementing over negativeyear limits', function (t) {
+  t.equal(
+    parseWeek('2015-76').start.toISOString(),
+    parseWeek('201328').start.toISOString()
+  )
+  t.end()
+})
+
 test('previous week', function (t) {
   t.equal(parseWeek('202000').prev, '201952')
   t.equal(parseWeek('202100').prev, '202053')
@@ -50,10 +58,13 @@ test('previous week', function (t) {
 test('get previous week', function (t) {
   t.deepEqual(parseWeek('20200').getPrev(), {
     name: '201952',
-    prev: '201951',
-    next: '202000',
+    prevYear: 2019,
+    prevWeek: 51,
+    nextYear: 2020,
+    nextWeek: 0,
     start: new Date(2019, 11, 29),
-    end: new Date(2019, 11, 31)
+    end: new Date(2019, 11, 31),
+    tz: null
   })
   t.end()
 })
@@ -61,10 +72,13 @@ test('get previous week', function (t) {
 test('get next week', function (t) {
   t.deepEqual(parseWeek('20200').getNext(), {
     name: '202001',
-    prev: '202000',
-    next: '202002',
+    prevYear: 2020,
+    prevWeek: 0,
+    nextYear: 2020,
+    nextWeek: 2,
     start: new Date(2020, 0, 5),
-    end: new Date(2020, 0, 12)
+    end: new Date(2020, 0, 12),
+    tz: null
   })
   t.end()
 })
@@ -82,3 +96,4 @@ test('next week', function (t) {
   t.equal(parseWeek('202053').next, '202100')
   t.end()
 })
+

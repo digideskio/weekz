@@ -18,21 +18,29 @@ $ npm install weekz
 
 ## `weekz.parseWeek(yearAndWeek, [timeZone])`
 
+The input `yearAndWeek` is a string that is parsed to a number. This is useful 
+if you have the week in a url.
+
 Get the information about a certain week in a year.
-The week is timezone specific!
-_(in this example we ran it in GMT+0100)_
-By default it uses the computers timezone.
-You can pass in a timezone using `+0000` format.
+The week is timezone specific! _(in this example we ran it in GMT+0100)_
+
+The default `timeZone` is the computers timezone. You can pass in a timezone using `+0000` format.
+
 
 ```javascript
 var weekz = require('..')
 var week = weekz.parseWeek('201603')
 require('assert').deepEqual(week, {
    name: '201603',
+   tz: undefined,
    start: new Date('Sun Jan 17 2016 00:00:00 GMT+0100'),
    end: new Date('Sun Jan 24 2016 00:00:00 GMT+0100'),
    next: '201604',
-   prev: '201602'
+   nextYear: 2016,
+   nextWeek: 4,
+   prev: '201602',
+   prevYear: 2016,
+   prevWeek: 2
 })
 ```
 
@@ -42,14 +50,24 @@ With `.getNext()` and `.getPrev()` you can get the next or previous week.
 var nextWeek = week.getNext()
 require('assert').deepEqual(nextWeek, {
    name: '201604',
+   tz: undefined,
    start: new Date('Sun Jan 24 2016 00:00:00 GMT+0100'),
    end: new Date('Sun Jan 31 2016 00:00:00 GMT+0100'),
    next: '201605',
-   prev: '201603'
+   nextYear: 2016,
+   nextWeek: 5,
+   prev: '201603',
+   prevYear: 2016,
+   prevWeek: 3
 })
 ```
 
-## `weekz.inYear(<year>)`
+## `weekz.getWeek(year, week, [timeZone])`
+
+Alternative to `parseWeek`. To be used with numbers rather than strings, other 
+than that the API is equal.
+
+## `weekz.inYear(year)`
 
 Tells you how many weeks a year has. Returns either `53` or `52`.
 
