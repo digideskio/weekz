@@ -1,6 +1,6 @@
 {
   "name": "weekz",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "[![Build Status](https://travis-ci.org/martinheidegger/weekz.svg?branch=master)](https://travis-ci.org/martinheidegger/weekz) [![Coverage Status](https://coveralls.io/repos/github/martinheidegger/weekz/badge.svg?branch=master)](https://coveralls.io/github/martinheidegger/weekz?branch=master) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)",
   "main": "index.js",
   "scripts": {
