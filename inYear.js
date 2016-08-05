@@ -1,80 +1,44 @@
 'use strict'
 
-// From Wikipedia: https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
-var exceptions = {
-  '4': 1,
-  '9': 1,
-  '15': 1,
-  '20': 1,
-  '26': 1,
-  '32': 1,
-  '37': 1,
-  '43': 1,
-  '48': 1,
-  '54': 1,
-  '60': 1,
-  '65': 1,
-  '71': 1,
-  '76': 1,
-  '82': 1,
-  '88': 1,
-  '93': 1,
-  '99': 1,
-  '105': 1,
-  '111': 1,
-  '116': 1,
-  '122': 1,
-  '128': 1,
-  '133': 1,
-  '139': 1,
-  '144': 1,
-  '150': 1,
-  '156': 1,
-  '161': 1,
-  '167': 1,
-  '172': 1,
-  '178': 1,
-  '184': 1,
-  '189': 1,
-  '195': 1,
-  '201': 1,
-  '207': 1,
-  '212': 1,
-  '218': 1,
-  '224': 1,
-  '229': 1,
-  '235': 1,
-  '240': 1,
-  '246': 1,
-  '252': 1,
-  '257': 1,
-  '263': 1,
-  '268': 1,
-  '274': 1,
-  '280': 1,
-  '285': 1,
-  '291': 1,
-  '296': 1,
-  '303': 1,
-  '308': 1,
-  '314': 1,
-  '320': 1,
-  '325': 1,
-  '331': 1,
-  '336': 1,
-  '342': 1,
-  '348': 1,
-  '353': 1,
-  '359': 1,
-  '364': 1,
-  '370': 1,
-  '376': 1,
-  '381': 1,
-  '387': 1,
-  '392': 1,
-  '398': 1
-}
+var DAY_IN_MS = 1000 * 60 * 60 * 24
 
-module.exports = function weeksInYear (year) {
-  return exceptions[String(year % 400)] ? 53 : 52
+module.exports = function weeksInYear (year, startDay) {
+  var date = new Date(Date.UTC(year, 0, 1))
+  var firstOfNextYear = new Date(Date.UTC(year + 1, 0, 0))
+  var day = 7 - date.getUTCDay() + (startDay || 0)
+  var result = [{
+    start: {
+      month: 0,
+      date: 1
+    },
+    end: {
+      month: 0,
+      date: day
+    }
+  }]
+
+  while (date.valueOf() < firstOfNextYear) {
+    date.setTime(date.getTime() + 1 * DAY_IN_MS)
+    var next = {
+      start: {
+        month: date.getMonth(),
+        date: date.getDate()
+      }
+    }
+    date.setTime(date.getTime() + 6 * DAY_IN_MS)
+    if (date.valueOf() > firstOfNextYear) {
+      next.end = {
+        month: 11,
+        date: 31
+      }
+    } else {
+      next.end = {
+        month: date.getMonth(),
+        date: date.getDate()
+      }
+    }
+    result.push(next)
+  }
+
+  return result
 }

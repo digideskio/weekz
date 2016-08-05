@@ -18,8 +18,9 @@
   "author": "Martin Heidegger <martin.heidegger@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "tap": "^6.2.0",
-    "standard": "^7.1.2"
+    "glob": "^7.0.5",
+    "standard": "^7.1.2",
+    "tap": "^6.2.0"
   },
   "directories": {
     "test": "test"

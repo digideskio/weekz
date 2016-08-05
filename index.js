@@ -1,6 +1,8 @@
 'use strict'
 module.exports = {
-  parseWeek: require('./parseWeek.js'),
-  getWeek: require('./getWeek.js'),
-  inYear: require('./inYear.js')
+  byMonth: require('./byMonth.js'),
+  inMonth: require('./inMonth.js'),
+  inMonthForDate: require('./inMonthForDate.js'),
+  inYear: require('./inYear.js'),
+  inYearForDate: require('./inYearForDate.js')
 }

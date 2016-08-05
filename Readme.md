@@ -10,72 +10,177 @@ do in a calendar display).
 
 ## Installation
 
-Just use `npm` to install it
+Just use `npm` to install it:
 
 ```
 $ npm install weekz
 ```
 
-## `weekz.parseWeek(yearAndWeek, [timeZone])`
+## About the implementation
 
-The input `yearAndWeek` is a string that is parsed to a number. This is useful 
-if you have the week in a url.
+Weeks are tricky to implement if you use moment.js or Date instances to evaluate them. This is because timestamps are intrinsically bound to
+timezones, but weeks are not. This library will allow you to get the
+weeks of a month or a year in a fashion that should make it easy for to
+put in a calendar or iterate over them.
 
-Get the information about a certain week in a year.
-The week is timezone specific! _(in this example we ran it in GMT+0100)_
+This package is made to be as simple as possible. It comes without 
+dependencies and it returns only the necessary information. I.e.:
 
-The default `timeZone` is the computers timezone. You can pass in a timezone using `+0000` format.
+`weekz.inMonth(2015, 0)` will return an array with each entry having a `{start: 1, end: 3}`-like object. It will not reiterate which index a week
+has or which month it is because you should have this information already
+when calling the method.
 
+This package has been implemented with code-size in mind: You can require
+each method both like `require('weekz').inMonth` or `require('weekz/inMonth')`.
 
-```javascript
-var weekz = require('..')
-var week = weekz.parseWeek('201603')
-require('assert').deepEqual(week, {
-   name: '201603',
-   tz: undefined,
-   start: new Date('Sun Jan 17 2016 00:00:00 GMT+0100'),
-   end: new Date('Sun Jan 24 2016 00:00:00 GMT+0100'),
-   next: '201604',
-   nextYear: 2016,
-   nextWeek: 4,
-   prev: '201602',
-   prevYear: 2016,
-   prevWeek: 2
-})
-```
+## `weekz.inMonth(year, month[, startDay])`
 
-With `.getNext()` and `.getPrev()` you can get the next or previous week.
+A getter for the weeks that are within the specified month. The weeks will include the start `date` and end `date`. 
 
-```javascript
-var nextWeek = week.getNext()
-require('assert').deepEqual(nextWeek, {
-   name: '201604',
-   tz: undefined,
-   start: new Date('Sun Jan 24 2016 00:00:00 GMT+0100'),
-   end: new Date('Sun Jan 31 2016 00:00:00 GMT+0100'),
-   next: '201605',
-   nextYear: 2016,
-   nextWeek: 5,
-   prev: '201603',
-   prevYear: 2016,
-   prevWeek: 3
-})
-```
-
-## `weekz.getWeek(year, week, [timeZone])`
-
-Alternative to `parseWeek`. To be used with numbers rather than strings, other 
-than that the API is equal.
-
-## `weekz.inYear(year)`
-
-Tells you how many weeks a year has. Returns either `53` or `52`.
+- `year` ... an integer like `2016` for the year of 2016.
+- `month` ... an integer between `0` and `11` for the month of the year.
+- `startDay` ... an integer between `0` and `6` for the day at which the week 
+    starts `0`=Sunday, `1`=Monday, etc. _default is `0` ... Sunday_
 
 ```javascript
 var weekz = require('..')
-require('assert').equal(weekz.inYear(2015), 53)
-require('assert').equal(weekz.inYear(2016), 52)
+var weeks = weekz.inMonth(2015, 0, 0)
+/*
+[
+  { start: 1, end: 3 },
+  { start: 4, end: 10 },
+  { start: 11, end: 17 },
+  { start: 18, end: 24 },
+  { start: 25, end: 31 }
+]
+*/
 ```
+
+
+## `weekz.inMonthForDate(year, month, date[, startDay])`
+
+For implementing a calendar it is often good to know in what week a particular 
+date lies. This method gives you the week of a month for a particular date.
+
+The resulting week will have an `index` property that indicates which week
+of the month is found. `0` up to `4`.
+
+**Note:** If the date is invalid it will return `null` because no week is
+found to match it!
+
+- `year` ... an integer like `2016` for the year of 2016.
+- `month` ... an integer between `0` and `11` for the month of the year.
+- `date` ... the date of the month starting with `1` up to `31`.
+- `startDay` ... an integer between `0` and `6` for the day at which the week 
+     starts `0`=Sunday, `1`=Monday, etc. _default is `0` ... Sunday_
+
+```javascript
+var weekz = require('weekz')
+var week = weekz.inMonthForDate(2015, 0, 10, 0)
+/*
+{ start: 4, end: 10, index: 1 }
+*/
+```
+
+## `weekz.inYear(year[, startDay])`
+
+Weeks can also be counted from the start of the year. This way the first week 
+is starting from the first of january and interates through to the end of the 
+year.
+
+- `year` ... an integer like `2016` for the year of 2016.
+- `startDay` ... an integer between `0` and `6` for the day at which the week 
+     starts `0`=Sunday, `1`=Monday, etc. _default is `0` ... Sunday_
+
+```javascript
+var weekz = require('weekz')
+var weeks = weekz.inYear(2015, 0)
+/*
+[
+  { start: { month: 0, date: 1 }, end: { month: 0, date: 3 } },
+  { start: { month: 0, date: 2 }, end: { month: 0, date: 8 } },
+  { start: { month: 0, date: 9 }, end: { month: 0, date: 15 } },
+  { start: { month: 0, date: 16 }, end: { month: 0, date: 22 } },
+  { start: { month: 0, date: 23 }, end: { month: 0, date: 29 } },
+  { start: { month: 0, date: 30 }, end: { month: 1, date: 5 } },
+  { start: { month: 1, date: 6 }, end: { month: 1, date: 12 } },
+  { start: { month: 1, date: 13 }, end: { month: 1, date: 19 } },
+  { start: { month: 1, date: 20 }, end: { month: 1, date: 26 } },
+  ....
+  { start: { month: 11, date: 4 }, end: { month: 11, date: 10 } },
+  { start: { month: 11, date: 11 }, end: { month: 11, date: 17 } },
+  { start: { month: 11, date: 18 }, end: { month: 11, date: 24 } },
+  { start: { month: 11, date: 25 }, end: { month: 11, date: 31 } }
+]
+*/
+```
+
+## `weekz.inYearForDate(year, month, date[, startDay])`
+
+For implementing a calendar it is often good to know in what week a particular 
+date lies. This method gives you the week of a year for a particular date.
+
+The resulting week will have an `index` property that indicates which week
+of the year is found. `0` up to `52` (depending on the year).
+
+**Note:** If the date is invalid it will return `null` because no week is
+found to match it!
+
+- `year` ... an integer like `2016` for the year of 2016.
+- `month` ... an integer between `0` and `11` for the month of the year.
+- `date` ... the date of the month starting with `1` up to `31`.
+- `startDay` ... an integer between `0` and `6` for the day at which the week 
+     starts `0`=Sunday, `1`=Monday, etc. _default is `0` ... Sunday_
+
+```javascript
+var weekz = require('weekz')
+var week = weekz.inYearForDate(2015, 0, 10, 0)
+/*
+{ start: 4, end: 10, index: 1 }
+*/
+```
+## `weekz.byMonth(year[, startDay])`
+
+You might need to iterate over they weeks in a year split by month. This
+method returns just that.
+
+- `year` ... an integer like `2016` for the year of 2016.
+- `startDay` ... an integer between `0` and `6` for the day at which the week starts `0`=Sunday, `1`=Monday, etc. _default is `0` ... Sunday_
+
+```javascript
+var weekz = require('weekz')
+var weeks = weekz.byMonth(2015, 0)
+/*
+[ [ { start: 1, end: 3 },
+    { start: 4, end: 10 },
+    { start: 11, end: 17 },
+    { start: 18, end: 24 },
+    { start: 25, end: 31 } ],
+  [ { start: 1, end: 7 },
+    { start: 8, end: 14 },
+    { start: 15, end: 21 },
+    { start: 22, end: 28 } ],
+  [ { start: 1, end: 7 },
+  ....
+    { start: 29, end: 30 } ],
+  [ { start: 1, end: 5 },
+    { start: 6, end: 12 },
+    { start: 13, end: 19 },
+    { start: 20, end: 26 },
+    { start: 27, end: 31 } ]
+]
+*/
+```
+
+## License
+
+ISC
+
+## Contributions
+
+Encouraged!
+
+
 
 
 
