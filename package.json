@@ -1,6 +1,6 @@
 {
   "name": "weekz",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Utils to work with weeks of a year.",
   "main": "index.js",
   "scripts": {
